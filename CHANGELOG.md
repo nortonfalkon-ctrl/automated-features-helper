@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.2.1
+
+### Fixed
+- Improved Silver Tongue / Златоуст detection for dnd5e skill check chat messages.
+- Added a ChatMessage fallback that infers Persuasion/Deception from the message text and speaker actor when the dnd5e skill roll context is not exposed to the module.
+
 ## v0.2.0
 
 - Added `Златоуст` / `Silver Tongue` automation to Automated Features Helper.

@@ -4,7 +4,7 @@ Automated Features Helper is a Foundry VTT v13 / dnd5e 5.3.x module for automati
 
 ## Packaging
 
-ZIP release filename is versioned, for example `automated-features-helper-v0.2.0.zip`. The folder inside the archive must be exactly `automated-features-helper`.
+ZIP release filename is versioned, for example `automated-features-helper-v0.2.1.zip`. The folder inside the archive must be exactly `automated-features-helper`.
 
 ## Current features
 
@@ -22,3 +22,7 @@ If an actor with the `Златоуст` / `Silver Tongue` feature makes a Charis
 - Preserve Foundry VTT v13 and dnd5e 5.3.x compatibility.
 - Do not split Silver Tongue into a separate module unless explicitly requested; it is now part of Automated Features Helper.
 - User prefers receiving only the ZIP archive link for builds, not separate links to individual files.
+
+
+## v0.2.1 note
+Silver Tongue now has a ChatMessage fallback that detects Persuasion/Deception from message text and speaker actor when dnd5e does not expose Actor.rollSkill context.

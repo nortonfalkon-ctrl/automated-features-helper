@@ -251,9 +251,18 @@
     if (!roll || roll.options?.[MODULE_ID]?.silverTongue?.applied) return false;
     if (!setting("enableSilverTongue")) return false;
 
-    const metadata = roll.options?.[MODULE_ID]?.silverTongue;
+    let metadata = roll.options?.[MODULE_ID]?.silverTongue;
     if (!metadata && !allowFallback) return false;
-    if (!metadata && allowFallback && !isFallbackEligible(messageData)) return false;
+    if (!metadata && allowFallback) {
+      if (!isFallbackEligible(messageData)) return false;
+      const inferred = inferContextFromMessageData(messageData);
+      metadata = {
+        actorUuid: inferred?.actor?.uuid,
+        actorName: inferred?.actor?.name,
+        skillId: inferred?.skillId,
+        source: "ChatMessage.create fallback"
+      };
+    }
 
     const die = findD20Term(roll);
     if (!die) {
@@ -341,10 +350,53 @@
   }
 
   function isFallbackEligible(messageData) {
-    if (!activeSkillContext?.eligible) return false;
-    const speakerActor = getActorFromSpeaker(messageData?.speaker);
-    if (speakerActor && activeSkillContext.actor && speakerActor.id !== activeSkillContext.actor.id) return false;
+    if (activeSkillContext?.eligible) {
+      const speakerActor = getActorFromSpeaker(messageData?.speaker);
+      if (speakerActor && activeSkillContext.actor && speakerActor.id !== activeSkillContext.actor.id) return false;
+      return true;
+    }
+
+    const inferred = inferContextFromMessageData(messageData);
+    if (!inferred?.eligible) {
+      debug("Silver Tongue fallback skipped", inferred?.reason ?? "could not infer eligible skill check", messageData);
+      return false;
+    }
+
     return true;
+  }
+
+  function inferContextFromMessageData(messageData) {
+    if (!setting("enableSilverTongue")) return { eligible: false, reason: "Silver Tongue disabled" };
+
+    const actor = getActorFromSpeaker(messageData?.speaker);
+    if (!actor) return { eligible: false, reason: "no actor in message speaker" };
+
+    const skillId = findSkillInObject(messageData) ?? findSkillInText([
+      messageData?.flavor,
+      messageData?.content,
+      messageData?.speaker?.alias,
+      messageData?.flags
+    ]);
+
+    const normalizedSkill = normalizeSkillId(skillId);
+    return {
+      actor,
+      skillId: normalizedSkill,
+      rawSkillId: skillId,
+      eligible: setting("enableSilverTongue") && isEligibleSkill(normalizedSkill) && actorHasSilverTongue(actor),
+      reason: getIneligibilityReason(actor, normalizedSkill)
+    };
+  }
+
+  function findSkillInText(values) {
+    const text = values.map((value) => {
+      try { return typeof value === "string" ? value : JSON.stringify(value ?? ""); }
+      catch (_err) { return ""; }
+    }).join(" ").toLowerCase().replace(/[ё]/g, "е");
+
+    if (/\bdec(eption)?\b/.test(text) || text.includes("обман") || text.includes("deception")) return "dec";
+    if (/\bper(suasion)?\b/.test(text) || text.includes("убеждение") || text.includes("persuasion")) return "per";
+    return null;
   }
 
   function actorHasSilverTongue(actor) {
