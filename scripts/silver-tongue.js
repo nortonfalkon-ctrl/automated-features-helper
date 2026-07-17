@@ -317,6 +317,7 @@
     }
 
     const selected = getSelectedD20Result(die);
+    normalizeResultField(selected);
     if (!selected || typeof selected.result !== "number") {
       debug("Silver Tongue skipped: no selected d20 result", { source, die });
       return null;
@@ -331,6 +332,8 @@
     const delta = 10 - original;
     selected.result = 10;
     if ("count" in selected) selected.count = 10;
+    if ("number" in selected) selected.number = 10;
+    if ("value" in selected) selected.value = 10;
 
     bumpTotals(die, delta);
     bumpTotals(rollData, delta);
@@ -364,23 +367,63 @@
   }
 
   function findD20TermData(rollData) {
-    const terms = Array.isArray(rollData?.terms) ? rollData.terms : [];
-    return terms.find((term) => Number(term?.faces ?? term?.numberFaces ?? 0) === 20 && Array.isArray(term.results));
+    const seen = new Set();
+
+    const visit = (value, depth = 0) => {
+      if (!value || typeof value !== "object" || depth > 10 || seen.has(value)) return null;
+      seen.add(value);
+
+      if (Array.isArray(value.results)) {
+        const faces = Number(value.faces ?? value.numberFaces ?? value.denomination ?? value.options?.faces ?? 0);
+        const looksLikeD20 = faces === 20 || value.results.some((r) => Number(r?.result ?? r?.number ?? r?.value ?? 0) >= 1 && Number(r?.result ?? r?.number ?? r?.value ?? 0) <= 20);
+        if (looksLikeD20) return value;
+      }
+
+      const terms = Array.isArray(value.terms) ? value.terms : null;
+      if (terms) {
+        for (const term of terms) {
+          const found = visit(term, depth + 1);
+          if (found) return found;
+        }
+      }
+
+      for (const child of Object.values(value)) {
+        const found = visit(child, depth + 1);
+        if (found) return found;
+      }
+      return null;
+    };
+
+    return visit(rollData);
+  }
+
+  function normalizeResultField(result) {
+    if (!result || typeof result !== "object") return;
+    if (typeof result.result !== "number") {
+      for (const key of ["number", "value", "roll"]) {
+        if (typeof result[key] === "number") {
+          result.result = result[key];
+          return;
+        }
+      }
+    }
   }
 
   function getSelectedD20Result(die) {
     const results = die.results ?? [];
-    const active = results.filter((result) => result.active !== false && !result.discarded && !result.rerolled && !result.exploded);
+    const active = results.filter((result) => result.active !== false && !result.discarded && !result.rerolled && !result.exploded && !result.hidden);
     if (active.length) return active[active.length - 1];
     return results.find((result) => result.active !== false && !result.discarded) ?? results[results.length - 1];
   }
 
   function buildSkillContext(actor, skillId, args) {
-    const normalizedSkill = normalizeSkillId(skillId);
+    const extractedSkill = extractSkillId(skillId) ?? skillId;
+    const normalizedSkill = normalizeSkillId(extractedSkill);
     return {
       actor,
       skillId: normalizedSkill,
       rawSkillId: skillId,
+      extractedSkillId: extractedSkill,
       eligible: setting("enableSilverTongue") && isEligibleSkill(normalizedSkill) && actorHasSilverTongue(actor),
       reason: getIneligibilityReason(actor, normalizedSkill),
       args
@@ -390,7 +433,7 @@
   function resolveContextFromConfig(config) {
     if (activeSkillContext) return activeSkillContext;
     const speakerActor = getActorFromSpeaker(config?.message?.speaker ?? config?.speaker);
-    const possibleSkill = findSkillInObject(config);
+    const possibleSkill = extractSkillId(config);
     if (!possibleSkill) return { eligible: false, reason: "no active rollSkill context and no skill id in config" };
     const normalizedSkill = normalizeSkillId(possibleSkill);
     return {
@@ -409,7 +452,7 @@
     const actor = getActorFromSpeaker(messageData?.speaker ?? message?.speaker);
     if (!actor) return { eligible: false, reason: "no actor in message speaker" };
 
-    const skillId = findSkillInObject(messageData) ?? findSkillInText([
+    const skillId = extractSkillId(messageData) ?? findSkillInText([
       messageData?.flavor,
       message?.flavor,
       messageData?.content,
@@ -455,12 +498,24 @@
     });
   }
 
+  function extractSkillId(value) {
+    const found = findSkillInObject(value);
+    if (found && typeof found === "object") return findSkillInObject(found);
+    return found;
+  }
+
   function findSkillInObject(value, depth = 0) {
     if (depth > 6 || value == null) return null;
     if (typeof value === "string" && isEligibleSkill(value)) return value;
     if (typeof value !== "object") return null;
 
-    for (const key of ["skill", "skillId", "skillID", "abilityId", "name", "label", "slug"]) {
+    for (const key of ["skill", "skillId", "skillID", "skillKey", "id", "key", "identifier", "abilityId", "name", "label", "slug", "value"]) {
+      if (isEligibleSkill(value[key])) return value[key];
+    }
+
+    // dnd5e v5.3 may pass a full skill object instead of a string.
+    // Russian systems/sheets often keep the display label rather than the id.
+    for (const key of ["title", "localized", "localizedName", "display", "displayName"]) {
       if (isEligibleSkill(value[key])) return value[key];
     }
 

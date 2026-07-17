@@ -30,3 +30,8 @@ Silver Tongue now has a ChatMessage fallback that detects Persuasion/Deception f
 
 ## v0.2.2 note
 Silver Tongue fallback was rebuilt around preCreateChatMessage/createChatMessage and direct serialized roll mutation because dnd5e skill check cards did not reliably expose roll context through Actor.rollSkill/D20Roll alone.
+
+
+## v0.2.3 diagnostic fix
+
+The user-provided debug log showed that Automated Features Helper v0.2.2 loaded and patched the expected Silver Tongue hooks, but dnd5e v5.3.3 passed the skill argument as an object instead of a plain string. The module therefore normalized it as `[object object]` and rejected the roll as not Persuasion/Deception. v0.2.3 extracts skill ids from object fields such as `skill`, `skillId`, `skillKey`, `id`, `key`, `slug`, `label`, and localized display fields before checking eligibility. It also makes serialized d20 parsing recursive and tolerant of nonstandard result field names.

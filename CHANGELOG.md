@@ -1,5 +1,12 @@
 # Changelog
 
+## v0.2.3
+
+### Fixed
+- Fixed Silver Tongue / Златоуст detection when dnd5e v5.3 passes a full skill object instead of a plain skill id string.
+- Improved serialized D20Roll parsing so Silver Tongue can find nested or nonstandard d20 result structures in Foundry/dnd5e chat messages.
+- Added support for d20 result fields stored as `result`, `number`, or `value`.
+
 ## 0.2.2
 
 ### Fixed
