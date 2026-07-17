@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.2.2
+
+### Fixed
+- Reworked Silver Tongue / Златоуст chat-message fallback to use Foundry's preCreateChatMessage and createChatMessage hooks.
+- Silver Tongue now rewrites serialized roll data directly before the message is saved, which is more reliable for dnd5e 5.3.x skill checks.
+- Added stronger actor and skill detection for Russian dnd5e skill check cards.
+
 ## 0.2.1
 
 ### Fixed
