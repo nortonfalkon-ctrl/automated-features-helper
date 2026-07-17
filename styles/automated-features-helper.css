@@ -1,0 +1,12 @@
+.csh-chat-note {
+  margin-top: 0.35rem;
+  padding: 0.35rem 0.45rem;
+  border: 1px solid rgba(120, 95, 50, 0.75);
+  border-radius: 4px;
+  background: rgba(20, 14, 8, 0.45);
+  font-size: 0.9em;
+}
+
+.csh-silver-tongue-note {
+  border-color: rgba(150, 115, 180, 0.75);
+}

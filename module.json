@@ -1,0 +1,52 @@
+{
+  "id": "automated-features-helper",
+  "title": "Automated Features Helper",
+  "description": "Foundry VTT module for automating selected D&D 5e class features, combat styles, and skill-related automations.",
+  "version": "0.2.0",
+  "authors": [
+    {
+      "name": "Norton Moon"
+    }
+  ],
+  "compatibility": {
+    "minimum": "13",
+    "verified": "13"
+  },
+  "relationships": {
+    "systems": [
+      {
+        "id": "dnd5e",
+        "type": "system",
+        "compatibility": {
+          "minimum": "5.3.0",
+          "verified": "5.3.3"
+        }
+      }
+    ]
+  },
+  "scripts": [
+    "scripts/automated-features-helper.js",
+    "scripts/silver-tongue.js"
+  ],
+  "styles": [
+    "styles/automated-features-helper.css"
+  ],
+  "languages": [
+    {
+      "lang": "en",
+      "name": "English",
+      "path": "lang/en.json"
+    },
+    {
+      "lang": "ru",
+      "name": "Русский",
+      "path": "lang/ru.json"
+    }
+  ],
+  "url": "https://github.com/nortonfalkon-ctrl/automated-features-helper",
+  "manifest": "https://raw.githubusercontent.com/nortonfalkon-ctrl/automated-features-helper/main/module.json",
+  "download": "https://github.com/nortonfalkon-ctrl/automated-features-helper/releases/download/v0.2.0/automated-features-helper-v0.2.0.zip",
+  "readme": "https://raw.githubusercontent.com/nortonfalkon-ctrl/automated-features-helper/main/README.md",
+  "changelog": "https://raw.githubusercontent.com/nortonfalkon-ctrl/automated-features-helper/main/CHANGELOG.md",
+  "bugs": "https://github.com/nortonfalkon-ctrl/automated-features-helper/issues"
+}
