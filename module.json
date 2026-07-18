@@ -2,7 +2,7 @@
   "id": "automated-features-helper",
   "title": "Automated Features Helper",
   "description": "Foundry VTT module for automating selected D&D 5e class features, combat styles, and skill-related automations.",
-  "version": "0.2.3",
+  "version": "0.3.5",
   "authors": [
     {
       "name": "Norton Moon"
@@ -26,7 +26,8 @@
   },
   "scripts": [
     "scripts/automated-features-helper.js",
-    "scripts/silver-tongue.js"
+    "scripts/silver-tongue.js",
+    "scripts/corruption-charges.js"
   ],
   "styles": [
     "styles/automated-features-helper.css"
@@ -45,7 +46,7 @@
   ],
   "url": "https://github.com/nortonfalkon-ctrl/automated-features-helper",
   "manifest": "https://raw.githubusercontent.com/nortonfalkon-ctrl/automated-features-helper/main/module.json",
-  "download": "https://github.com/nortonfalkon-ctrl/automated-features-helper/releases/download/v0.2.3/automated-features-helper-v0.2.3.zip",
+  "download": "https://github.com/nortonfalkon-ctrl/automated-features-helper/releases/download/v0.3.5/automated-features-helper-v0.3.5.zip",
   "readme": "https://raw.githubusercontent.com/nortonfalkon-ctrl/automated-features-helper/main/README.md",
   "changelog": "https://raw.githubusercontent.com/nortonfalkon-ctrl/automated-features-helper/main/CHANGELOG.md",
   "bugs": "https://github.com/nortonfalkon-ctrl/automated-features-helper/issues"

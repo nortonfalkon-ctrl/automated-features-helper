@@ -1,5 +1,44 @@
 # Changelog
 
+## v0.3.5
+
+### Fixed
+- Added Corruption / Порча long-rest reset logic.
+- When a long rest is detected, the module recalculates the base Corruption limit from the Praetor class level and resets the counter back to that base value.
+- This preserves temporary over-cap charges gained from spell slots during the adventuring day, while preventing the raised temporary maximum from becoming permanent after a long rest.
+- Kept verbose Corruption diagnostics for verification.
+
+## v0.3.4
+
+### Fixed
+- Fixed Corruption / Порча charges still staying at the normal maximum when dnd5e clamps `system.uses.value` back down to `system.uses.max`.
+- Corruption now temporarily raises both `system.uses.value` and `system.uses.max` when a spell slot is spent, so a counter at `1 / 1` can become `2 / 2` instead of being clamped back to `1 / 1`.
+- Kept verbose Corruption diagnostics enabled for verification.
+
+## v0.3.3
+
+### Fixed
+- Fixed Corruption / Порча charges not increasing on the actor sheet in dnd5e 5.3.x.
+- Corruption now updates `system.uses.value` directly instead of trying to lower `system.uses.spent` below zero, because dnd5e clamps negative spent values back to zero.
+
+## v0.3.2
+
+### Changed
+- Added verbose Corruption counter diagnostics for dnd5e item uses: before state, update payload, after state, item id, item uuid, item type, and raw uses data.
+
+## 0.3.1
+
+- Corruption / Порча automation now ignores spell items with the same name.
+
+# 0.3.1
+
+## Added
+- Added Corruption / Порча charge automation.
+- Spending a spell slot of 1st level or higher now adds 1 charge to a configured counter item named `Порча` or `Corruption`.
+- Added settings for enabling the mechanic, counter item names, and chat notes.
+
+# Changelog
+
 ## v0.2.3
 
 ### Fixed

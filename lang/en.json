@@ -20,5 +20,13 @@
   "CSH.Settings.SilverTongueFeatureNames.Name": "Silver Tongue feature names",
   "CSH.Settings.SilverTongueFeatureNames.Hint": "Semicolon-separated accepted feature names. Example: Златоуст;Silver Tongue.",
   "CSH.Settings.SilverTongueShowChatNote.Name": "Show Silver Tongue chat note",
-  "CSH.Settings.SilverTongueShowChatNote.Hint": "Adds a short note to the check card when the module changes the d20 result to 10."
+  "CSH.Settings.SilverTongueShowChatNote.Hint": "Adds a short note to the check card when the module changes the d20 result to 10.",
+  "CSH.Corruption.Name": "Corruption",
+  "CSH.Corruption.ChatNote": "<strong>Corruption:</strong> {actor} gains a corruption charge (+{amount}) for spending a spell slot.",
+  "CSH.Settings.EnableCorruptionCharges.Name": "Enable Corruption charges",
+  "CSH.Settings.EnableCorruptionCharges.Hint": "When an actor spends a spell slot of 1st level or higher, add 1 charge to the configured Corruption counter item.",
+  "CSH.Settings.CorruptionCounterNames.Name": "Corruption counter item names",
+  "CSH.Settings.CorruptionCounterNames.Hint": "Semicolon-separated list of valid counter item names. Example: Порча;Corruption.",
+  "CSH.Settings.CorruptionShowChatNote.Name": "Show Corruption chat note",
+  "CSH.Settings.CorruptionShowChatNote.Hint": "Create a short chat message when the module adds a corruption charge."
 }

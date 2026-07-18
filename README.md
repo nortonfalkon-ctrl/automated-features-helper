@@ -20,3 +20,10 @@ The module has separate toggles for Great Weapon Fighting and Silver Tongue, fea
 
 - Foundry VTT v13
 - dnd5e 5.3.x
+
+
+## Порча / Corruption Charges
+
+When an actor spends a spell slot of 1st level or higher, the module automatically adds 1 charge to an item counter named `Порча` or `Corruption`.
+
+For dnd5e 5.x limited uses, the module mirrors the manual workaround of consuming `-1` item charges: it lowers `system.uses.spent` by 1, so the counter can temporarily exceed its normal recovery maximum until a long rest resets it.

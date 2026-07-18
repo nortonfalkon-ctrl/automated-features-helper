@@ -20,5 +20,13 @@
   "CSH.Settings.SilverTongueFeatureNames.Name": "Названия особенности «Златоуст»",
   "CSH.Settings.SilverTongueFeatureNames.Hint": "Список допустимых названий через точку с запятой. Например: Златоуст;Silver Tongue.",
   "CSH.Settings.SilverTongueShowChatNote.Name": "Показывать заметку «Златоуст» в чате",
-  "CSH.Settings.SilverTongueShowChatNote.Hint": "Добавляет к карточке проверки короткую заметку, когда модуль заменил результат d20 на 10."
+  "CSH.Settings.SilverTongueShowChatNote.Hint": "Добавляет к карточке проверки короткую заметку, когда модуль заменил результат d20 на 10.",
+  "CSH.Corruption.Name": "Порча",
+  "CSH.Corruption.ChatNote": "<strong>Порча:</strong> {actor} получает заряд порчи (+{amount}) за потраченную ячейку заклинания.",
+  "CSH.Settings.EnableCorruptionCharges.Name": "Включить автоматические заряды «Порчи»",
+  "CSH.Settings.EnableCorruptionCharges.Hint": "Когда актёр тратит ячейку заклинаний 1-го круга или выше, модуль добавляет 1 заряд к предмету-счётчику «Порча».",
+  "CSH.Settings.CorruptionCounterNames.Name": "Названия счётчика «Порча»",
+  "CSH.Settings.CorruptionCounterNames.Hint": "Список допустимых названий предмета-счётчика через точку с запятой. Например: Порча;Corruption.",
+  "CSH.Settings.CorruptionShowChatNote.Name": "Показывать заметку «Порча» в чате",
+  "CSH.Settings.CorruptionShowChatNote.Hint": "Создаёт короткое сообщение в чате, когда модуль добавил заряд порчи."
 }

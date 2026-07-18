@@ -35,3 +35,8 @@ Silver Tongue fallback was rebuilt around preCreateChatMessage/createChatMessage
 ## v0.2.3 diagnostic fix
 
 The user-provided debug log showed that Automated Features Helper v0.2.2 loaded and patched the expected Silver Tongue hooks, but dnd5e v5.3.3 passed the skill argument as an object instead of a plain string. The module therefore normalized it as `[object object]` and rejected the roll as not Persuasion/Deception. v0.2.3 extracts skill ids from object fields such as `skill`, `skillId`, `skillKey`, `id`, `key`, `slug`, `label`, and localized display fields before checking eligibility. It also makes serialized d20 parsing recursive and tolerant of nonstandard result field names.
+
+
+## v0.3.1 — Порча / Corruption Charges
+
+Added a Praetor corruption counter automation. The module watches actor spell-slot values and, when any level 1–9 slot decreases, adds one charge per spent slot to the actor item named `Порча` or `Corruption`. For dnd5e 5.x this is implemented by decreasing `system.uses.spent`, matching the manual `-1` item-charge consumption workaround and allowing charges above the normal recovery maximum until long rest recovery resets the counter.
